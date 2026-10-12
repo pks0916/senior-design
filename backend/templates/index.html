@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<body>
+<div className="main">
+    <div className="title">
+      <span>Bear Detections</span>
+    </div>
+    <div className="mainImage">
+      <img className="bigImg" src="{{url_for('static',filename='')}}{{cam}}" alt="Camera output"></img>
+      <ul>
+        {% for bear in bears %}
+          <li><img className="bigImg" src="{{url_for('static',filename='')}}{{detection}}" alt="{{detection}}"></img></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  </body>
+  </html>
