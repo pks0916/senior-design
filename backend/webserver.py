@@ -199,10 +199,10 @@ def serve_image():
         df = pd.read_csv("./images.csv")
         latest_image = df.iloc[-1]
         filename = latest_image['filename']
-        image_url = request.host_url + filename
+        image_url = request.host_url + filename.replace(chr(92), "/")
         confidence = latest_image['confidence']
 
-        animal = latest_image['filename'].split("/")[1].split("-")[0]
+        animal = os.path.basename(latest_image['filename'].replace("\\", "/")).split("-")[0]
         payload = {
             'image': image_url,
             'threat': animal,
