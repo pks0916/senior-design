@@ -1,0 +1,6 @@
+
+# Local SQLite database files
+backend/*.db
+backend/*.db-journal
+backend/*.db-wal
+backend/*.db-shm

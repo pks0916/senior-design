@@ -137,6 +137,9 @@ def telemetry():
     }
     return jsonify(response), 200
 
+import hashlib
+from sqlite_store import save_detection, detection_exists
+
 @app.route('/upload', methods=['POST'])
 def upload_image():
     file = request.files['image']
@@ -149,7 +152,22 @@ def upload_image():
     #     return jsonify({"message": "Only bear detections are stored"}), 200
 
     filepath = os.path.join("static", filename)
-    file.save(filepath)
+    event_identity = f'{animal}|{timestamp}|{filename}'
+    event_key = hashlib.sha256(event_identity.encode('utf-8')).hexdigest()
+
+    # Reject duplicate events before touching the image
+    if detection_exists(event_key):
+        return jsonify({"message": "Duplicate detection ignored"}), 200
+
+    # Never overwrite an existing image filename
+    try:
+        with open(filepath, "xb") as destination:
+            file.save(destination)
+    except FileExistsError:
+        return jsonify({"error": "Image filename already exists"}), 409
+
+    if not save_detection(event_key, animal, timestamp, float(confidence), filepath):
+        return jsonify({"message": "Duplicate detection ignored"}), 200
     
     with open('detection.txt', 'a') as f:
         f.write(f"{animal} Detected: {timestamp} (Confidence: {confidence})\n")
@@ -166,6 +184,8 @@ def upload_image():
         imgs = imgs.iloc[-image_limit:]
     
     imgs.to_csv("images.csv", index=False)
+
+
 
     # Use consistent absolute URL format
     payload = {
