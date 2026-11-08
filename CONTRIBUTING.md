@@ -1,35 +1,33 @@
-# Working in This Repo
+# How We're Using This Repo
 
-Five of us share this code, and everyone's paper has to show what they did, so every change should be traceable to one person.
+There are five of us working in the same code, and each of our papers has to show what we personally did. So we should be able to tell who changed what.
 
-## Who owns what
+## Who's working on what
 
-| Area | Owner | Main files | Branch prefix |
-|---|---|---|---|
-| Coordination, architecture, setup and security docs | Andy | `docs/`, `README.md`, `CONTRIBUTING.md` | `andy/` |
-| Camera research and video input | Khaled | `docs/camera-*.md`, new video-input code | `khaled/` |
-| Backend (Flask, Socket.IO, storage) | Parth | `backend/webserver.py`, database work | `parth/` |
-| Detection model | Jason | `backend/yolo.py` (model parts), `backend/config.json`, test images | `jason/` |
-| Dashboard | Amareen | `frontend/` | `amareen/` |
+- **Andy**: coordination, architecture, setup, and security docs (`docs/`, `README.md`, this file). Branches start with `andy/`.
+- **Khaled**: camera research and getting video in from an IP camera (`docs/camera-*.md`, plus any new video input code). Branches start with `khaled/`.
+- **Parth**: backend: Flask, Socket.IO, storage (`backend/webserver.py`, database work). Branches start with `parth/`.
+- **Jason**: the detection model (the model parts of `backend/yolo.py`, `backend/config.json`, test images). Branches start with `jason/`.
+- **Amareen**: the dashboard (`frontend/`). Branches start with `amareen/`.
 
-Changes to someone else's area are fine. Tag the owner on the pull request.
+It's fine to change something in someone else's area, just tag them on the PR.
 
-## How to make a change
+## Making a change
 
-1. Pull the latest `main`: `git checkout main && git pull`
-2. Branch: `git checkout -b <yourname>/<short-topic>` (e.g. `jason/bear-class-config`)
-3. Commit small steps with clear messages: `fix: create static/ folder on server start`
-4. Push and open a pull request into `main`. Describe what changed and how you tested it.
-5. One teammate reviews, then the author merges. Don't push straight to `main`.
+1. Get the latest `main`: `git checkout main && git pull`
+2. Make a branch named after yourself and what you're doing: `git checkout -b <yourname>/<topic>`, e.g. `jason/bear-class-config`
+3. Commit in small pieces with messages that say what you did, like `fix: create static/ folder on server start`
+4. Push your branch and open a pull request into `main`. Say what you changed and how you tested it.
+5. Get one teammate to look it over, then merge it yourself. Please don't push straight to `main`.
 
-## Where things go
+## Where to put things
 
-- `docs/` holds written notes others need: architecture, setup guide, security review, meeting log, test results.
-- Test images and results: `tests/` (keep large datasets out of git; link to them instead)
-- Never commit secrets (tokens, Wi-Fi passwords, Tailscale keys), `node_modules/`, `.venv/`, or generated files like `images.csv`.
+- `docs/` is for notes the rest of us need: architecture, setup, security, meeting notes, test results.
+- Test images and results go in `tests/`. Keep big datasets out of git and just link to them.
+- Don't commit passwords, tokens, Tailscale keys, `node_modules/`, `.venv/`, or generated files like `images.csv`.
 
-## Tracking work
+## Keeping track of work
 
-Each task from the team work plan becomes a GitHub issue assigned to its owner and labeled with the area (`backend`, `model`, `frontend`, `docs`, `security`, `camera`). Close the issue from the pull request with `Closes #<n>`.
+Each task from our work plan should be a GitHub issue assigned to whoever owns it, with a label for the area (`backend`, `model`, `frontend`, `docs`, `security`, `camera`). If your PR finishes an issue, put `Closes #<number>` in the description so it closes on its own.
 
-Known problems to file as issues are listed in [docs/setup-guide.md](docs/setup-guide.md) (S-1 to S-11) and [docs/security-review.md](docs/security-review.md) (SEC-1 to SEC-9).
+The problems I already found are listed in [docs/setup-guide.md](docs/setup-guide.md) (S-1 to S-11) and [docs/security-review.md](docs/security-review.md) (SEC-1 to SEC-9). Those still need to be made into issues.
